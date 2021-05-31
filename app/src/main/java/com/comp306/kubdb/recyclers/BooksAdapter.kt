@@ -3,16 +3,18 @@ package com.comp306.kubdb.recyclers
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.comp306.kubdb.callbacks.ItemClickEvent
 import com.comp306.kubdb.databinding.BookItemBinding
 
 class Book();
 
-class BooksAdapter(private val mbooks: List<Book>) : RecyclerView.Adapter<BookViewHolder>() {
+class BooksAdapter(private val mbooks: List<Book>, val clickEvent: ItemClickEvent) : RecyclerView.Adapter<BookViewHolder>() {
 
     var books = ArrayList<Book>(mbooks)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         val binding = BookItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding.clickEvent = clickEvent
         return BookViewHolder(binding)
     }
 
@@ -25,8 +27,6 @@ class BooksAdapter(private val mbooks: List<Book>) : RecyclerView.Adapter<BookVi
     }
 
     fun addAll(newBooks: List<Book>) {
-
-
         books.addAll(books)
         notifyDataSetChanged()
     }

@@ -5,6 +5,7 @@ import com.comp306.kubdb.databinding.BookItemBinding
 
 class BookViewHolder(private val binding: BookItemBinding): RecyclerView.ViewHolder(binding.root) {
     fun bind(book: Book){
-
+        binding.position = layoutPosition
+//        binding.book = book
     }
 }
