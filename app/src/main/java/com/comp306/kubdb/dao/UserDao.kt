@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface UserDao {
 
-    @Query("SELECT * FROM User")
+    @Query("SELECT * FROM users LIMIT 0,10")
     fun getAllUsers(): Flow<List<User>>
 
-    @Query("SELECT * FROM User WHERE user_id = :userID")
+    @Query("SELECT * FROM users WHERE user_id = :userID")
     fun getUserByID(userID: String): Flow<User>
 
-    @Query("SELECT * FROM User WHERE user_id = :userID AND password = :password")
+    @Query("SELECT * FROM users WHERE user_id = :userID AND password = :password")
     fun getUserByCredentials(userID: Int, password: String): Flow<User>
 
 

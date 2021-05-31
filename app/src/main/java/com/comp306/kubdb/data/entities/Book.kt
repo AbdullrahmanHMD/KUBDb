@@ -26,7 +26,7 @@ data class Book(
     @TypeConverters(DatetimeTypeConverter::class)
     @ColumnInfo(name = "return_date") val returnDate: String?,
     @ColumnInfo(name = "borrowed") val isBorrowed: Boolean?,
-    @ColumnInfo(name = "user_id") val borrower: String?
+    @ColumnInfo(name = "borrower_id") val borrower: String?
 ) {
 
     override fun toString(): String {

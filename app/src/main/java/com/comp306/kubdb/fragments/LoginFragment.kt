@@ -43,6 +43,14 @@ class LoginFragment : BaseFragment() {
         binding.loginButton.setOnClickListener {
             login()
         }
+
+        viewModel.allUsers.observe(viewLifecycleOwner, {
+            val size = it.size
+            println(size)
+            if (size > 0)
+                println(it[0])
+        })
+
         return root
     }
 

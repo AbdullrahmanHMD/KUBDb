@@ -30,7 +30,7 @@ abstract class LibraryDatabase : RoomDatabase() {
                     context.applicationContext,
                     LibraryDatabase::class.java,
                     "library_database"
-                ).fallbackToDestructiveMigration()
+                ).createFromAsset("library_db.db").fallbackToDestructiveMigration()
                     .addCallback(LibraryDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
@@ -44,9 +44,11 @@ abstract class LibraryDatabase : RoomDatabase() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
+            println("CREATED")
+
             INSTANCE?.let { database ->
                 scope.launch {
-                    populateTable(database.userDao())
+//                    populateTable(database.userDao())
                 }
             }
         }
