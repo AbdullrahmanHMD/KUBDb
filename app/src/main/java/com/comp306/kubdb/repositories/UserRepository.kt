@@ -2,11 +2,16 @@ package com.comp306.kubdb.repositories
 
 import androidx.annotation.WorkerThread
 import com.comp306.kubdb.dao.UserDao
-import com.comp306.kubdb.data.User
+import com.comp306.kubdb.data.entities.User
 import kotlinx.coroutines.flow.Flow
 
 class UserRepository(private val userDao: UserDao) {
 
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    fun getAllUsers(): Flow<List<User>> {
+        return userDao.getAllUsers()
+    }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -16,7 +21,7 @@ class UserRepository(private val userDao: UserDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getUserByCredentials(user_id: String, password: String): Flow<User> {
+    suspend fun getUserByCredentials(user_id: Int, password: String): Flow<User> {
         return userDao.getUserByCredentials(user_id, password)
     }
 

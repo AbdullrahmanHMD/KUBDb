@@ -1,7 +1,7 @@
 package com.comp306.kubdb.viewmodels
 
 import androidx.lifecycle.*
-import com.comp306.kubdb.data.User
+import com.comp306.kubdb.data.entities.User
 import com.comp306.kubdb.repositories.UserRepository
 import kotlinx.coroutines.launch
 
@@ -15,7 +15,7 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 ////        return currentUser = repository.getUser(userID).asLiveData()
 //    }
 
-    fun login(lifecycleOwner: LifecycleOwner, userID: String, password: String) {
+    fun login(lifecycleOwner: LifecycleOwner, userID: Int, password: String) {
         viewModelScope.launch {
             currentUser = repository.getUserByCredentials(userID, password).asLiveData()
             currentUser.observe(lifecycleOwner, Observer { user ->

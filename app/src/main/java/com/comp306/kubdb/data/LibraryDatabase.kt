@@ -6,10 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.comp306.kubdb.dao.UserDao
+import com.comp306.kubdb.data.entities.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(User::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(User::class), version = 2, exportSchema = false)
 abstract class LibraryDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
@@ -29,7 +30,8 @@ abstract class LibraryDatabase : RoomDatabase() {
                     context.applicationContext,
                     LibraryDatabase::class.java,
                     "library_database"
-                ).addCallback(LibraryDatabaseCallback(scope))
+                ).fallbackToDestructiveMigration()
+                    .addCallback(LibraryDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
                 instance
@@ -51,7 +53,7 @@ abstract class LibraryDatabase : RoomDatabase() {
 
         suspend fun populateTable(userDao: UserDao) {
             val user1 = User(
-                "123",
+                123,
                 "xyz",
                 "wali",
                 "3bi",
@@ -61,7 +63,7 @@ abstract class LibraryDatabase : RoomDatabase() {
                 "Turkey"
             )
             val user2 = User(
-                "4324",
+                4324,
                 "awsd",
                 "saria",
                 "al-said hasan",

@@ -5,6 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.comp306.kubdb.R
+import com.comp306.kubdb.data.entities.User
 import com.comp306.kubdb.databinding.ActivityMainBinding
 import com.comp306.kubdb.viewmodels.MainViewModel
 import com.comp306.kubdb.viewmodels.MainViewModelFactory
@@ -14,6 +15,8 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels {
         MainViewModelFactory()
     }
+
+    lateinit var currentUser: User
 
     private lateinit var binding: ActivityMainBinding
 

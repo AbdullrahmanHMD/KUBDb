@@ -4,17 +4,20 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.comp306.kubdb.data.User
+import com.comp306.kubdb.data.entities.User
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
 
+    @Query("SELECT * FROM User")
+    fun getAllUsers(): Flow<List<User>>
+
     @Query("SELECT * FROM User WHERE user_id = :userID")
     fun getUserByID(userID: String): Flow<User>
 
     @Query("SELECT * FROM User WHERE user_id = :userID AND password = :password")
-    fun getUserByCredentials(userID: String, password: String): Flow<User>
+    fun getUserByCredentials(userID: Int, password: String): Flow<User>
 
 
 

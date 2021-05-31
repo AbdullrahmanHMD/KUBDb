@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import com.comp306.kubdb.LibraryApplication
 import com.comp306.kubdb.R
 import com.comp306.kubdb.databinding.FragmentLoginBinding
@@ -18,7 +16,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
 
@@ -49,6 +47,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun login() {
+//        navigate(R.id.action_loginFragment_to_homeFragment)
 
         val id = binding.usernameEdittext.text.toString()
         val password = binding.passwordEdittext.text.toString()
@@ -59,21 +58,23 @@ class LoginFragment : Fragment() {
             return
         }
 
-        viewModel.login(viewLifecycleOwner, id, password)
+        viewModel.login(viewLifecycleOwner, id.toInt(), password)
         viewModel.loggedIn.observe(
             viewLifecycleOwner,
             {
                 it?.let { successfulLogin ->
                     if (successfulLogin) {
-                        Navigation.findNavController(root)
-                            .navigate(R.id.action_loginFragment_to_homeFragment)
+                        navigate(R.id.action_loginFragment_to_homeFragment)
+
                         viewModel.currentUser.value?.let { user ->
+                            getMainActivity().currentUser = user
                             Toast.makeText(context, "Welcome, ${user.name}!", Toast.LENGTH_SHORT)
                                 .show()
-                            viewModel.loggedIn.value = null
                         }
                     } else
                         Toast.makeText(context, "Incorrect ID/Password", Toast.LENGTH_SHORT).show()
+
+                    viewModel.loggedIn.value = null
                 }
             }
         )
