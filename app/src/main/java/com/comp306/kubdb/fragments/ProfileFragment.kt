@@ -10,7 +10,7 @@ import com.comp306.kubdb.activities.MainActivity
 import com.comp306.kubdb.databinding.FragmentProfileBinding
 
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment() {
 
     lateinit var binding: FragmentProfileBinding
 

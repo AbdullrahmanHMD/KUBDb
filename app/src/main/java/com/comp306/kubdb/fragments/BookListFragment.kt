@@ -12,7 +12,7 @@ import com.comp306.kubdb.databinding.FragmentBookListBinding
 import com.comp306.kubdb.recyclers.BooksAdapter
 
 
-class BookListFragment : Fragment() {
+class BookListFragment : BaseFragment() {
 
     lateinit var binding: FragmentBookListBinding
     var adapter: BooksAdapter? = null
