@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 //todo: add other relevant repositories
 class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
-    val allUsers = repository.getAllUsers().asLiveData()
+//    val allUsers = repository.getAllUsers().asLiveData()
 
     val loggedIn: MutableLiveData<Boolean> = MutableLiveData(null)
     lateinit var currentUser: LiveData<User>

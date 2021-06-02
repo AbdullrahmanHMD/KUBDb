@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.comp306.kubdb.callbacks.ItemClickEvent
+import com.comp306.kubdb.data.entities.Book
 import com.comp306.kubdb.databinding.BookItemBinding
 
-class Book();
 
 class BooksAdapter(private val mbooks: List<Book>, val clickEvent: ItemClickEvent) : RecyclerView.Adapter<BookViewHolder>() {
 

@@ -20,6 +20,10 @@ abstract class BaseFragment : Fragment() {
         this.navController.navigate(actionId, bundle)
     }
 
+    protected fun navigateBack() {
+        this.navController.navigateUp()
+    }
+
     fun getMainActivity(): MainActivity {
         return activity as MainActivity
     }

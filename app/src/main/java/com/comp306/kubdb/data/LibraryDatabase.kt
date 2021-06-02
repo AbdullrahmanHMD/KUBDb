@@ -5,15 +5,21 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.comp306.kubdb.dao.BookDao
 import com.comp306.kubdb.dao.UserDao
-import com.comp306.kubdb.data.entities.User
+import com.comp306.kubdb.data.entities.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(User::class), version = 2, exportSchema = false)
+@Database(
+    entities = arrayOf(User::class, Book::class, Author::class, Rating::class, Writes::class),
+    version = 2,
+    exportSchema = false
+)
 abstract class LibraryDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
+    abstract fun bookDao(): BookDao
 
     companion object {
 
@@ -30,7 +36,7 @@ abstract class LibraryDatabase : RoomDatabase() {
                     context.applicationContext,
                     LibraryDatabase::class.java,
                     "library_database"
-                ).createFromAsset("library_db.db").fallbackToDestructiveMigration()
+                ).createFromAsset("library_db4.db").fallbackToDestructiveMigration()
                     .addCallback(LibraryDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
@@ -48,7 +54,7 @@ abstract class LibraryDatabase : RoomDatabase() {
 
             INSTANCE?.let { database ->
                 scope.launch {
-//                    populateTable(database.userDao())
+//                    database.userDao().filterCorrupted()
                 }
             }
         }

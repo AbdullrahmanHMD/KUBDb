@@ -7,6 +7,7 @@
 
         <variable
             name="book"
+
             type="com.comp306.kubdb.data.entities.Book" />
 
         <variable
@@ -21,7 +22,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{(v) -> clickEvent.onItemClicked(position)}">
+        android:onClick="@{(v) -> clickEvent.onItemClicked(position)}"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

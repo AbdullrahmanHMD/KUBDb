@@ -9,7 +9,6 @@
     <string name="isbn">ISBN:</string>
     <string name="publication_year">Publication Year</string>
     <string name="my_books">My Books</string>
-    <string name="rating">Rating:</string>
     <string name="authors">Authors:</string>
     <string name="publisher">Publisher</string>
     <string name="book_details">Book Details</string>

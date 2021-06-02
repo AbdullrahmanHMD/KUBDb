@@ -44,19 +44,20 @@ class LoginFragment : BaseFragment() {
             login()
         }
 
-        viewModel.allUsers.observe(viewLifecycleOwner, {
-            val size = it.size
-            println(size)
-            if (size > 0)
-                println(it[0])
-        })
+
+//        viewModel.allUsers.observe(viewLifecycleOwner, {
+//            val size = it.size
+//            println(size)
+//            if (size > 0)
+//                println(it[0])
+//        })
 
         return root
     }
 
     private fun login() {
 //        navigate(R.id.action_loginFragment_to_homeFragment)
-
+        binding.loginButton.isEnabled = false
         val id = binding.usernameEdittext.text.toString()
         val password = binding.passwordEdittext.text.toString()
 
@@ -79,8 +80,10 @@ class LoginFragment : BaseFragment() {
                             Toast.makeText(context, "Welcome, ${user.name}!", Toast.LENGTH_SHORT)
                                 .show()
                         }
-                    } else
+                    } else {
                         Toast.makeText(context, "Incorrect ID/Password", Toast.LENGTH_SHORT).show()
+                        binding.loginButton.isEnabled = true
+                    }
 
                     viewModel.loggedIn.value = null
                 }

@@ -4,13 +4,18 @@ import androidx.room.*
 import com.comp306.kubdb.data.DatetimeTypeConverter
 
 @Entity(
-    tableName = "Books",
+    tableName = "books",
     foreignKeys = [ForeignKey(
         entity = User::class,
-        parentColumns = arrayOf("user_id"),
-        childColumns = arrayOf("user_id"),
-        onDelete = ForeignKey.CASCADE,
-        onUpdate = ForeignKey.CASCADE
+        parentColumns = ["user_id"],
+        childColumns = ["borrower_id"],
+        onDelete = ForeignKey.SET_NULL,
+        onUpdate = ForeignKey.NO_ACTION
+    )],
+    indices = [Index(
+        name = "idx_books_user_id",
+        unique = false,
+        value = ["borrower_id"]
     )]
 )
 data class Book(
@@ -26,7 +31,7 @@ data class Book(
     @TypeConverters(DatetimeTypeConverter::class)
     @ColumnInfo(name = "return_date") val returnDate: String?,
     @ColumnInfo(name = "borrowed") val isBorrowed: Boolean?,
-    @ColumnInfo(name = "borrower_id") val borrower: String?
+    @ColumnInfo(name = "borrower_id") val borrower: Int?
 ) {
 
     override fun toString(): String {
