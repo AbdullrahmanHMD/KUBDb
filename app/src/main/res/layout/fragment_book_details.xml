@@ -16,7 +16,7 @@
 
         <variable
             name="rating"
-            type="Integer" />
+            type="Float" />
 
         <variable
             name="publishers"
@@ -97,12 +97,14 @@
 
                 <TextView
                     android:id="@+id/book_details_title_tv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:textAlignment="center"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/book_details_img"
+                    android:paddingHorizontal="12dp"
                     tools:text="Title of the book" />
 
                 <TextView
@@ -144,12 +146,14 @@
 
                 <RatingBar
                     android:id="@+id/book_details_rating"
-                    style="?android:attr/ratingBarStyleSmall"
+                    style="@style/Base.Widget.AppCompat.RatingBar.Small"
+                    android:theme="@style/RatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:isIndicator="true"
                     android:numStars="5"
+                    android:stepSize="0.5"
                     android:rating="@{rating}"
                     app:layout_constraintBottom_toBottomOf="@+id/rating_tv"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -162,7 +166,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="@string/rating"
+                    android:text="@string/publication_year"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/rating_tv"
@@ -212,17 +216,16 @@
                     app:layout_constraintStart_toStartOf="@+id/publisher_tv"
                     app:layout_constraintTop_toBottomOf="@id/publisher_value_tv" />
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="6dp"
-                    android:padding="2dp"
+                <TextView
+                    android:id="@+id/availability_value_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     app:layout_constraintBottom_toBottomOf="@+id/availability_tv"
-                    app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/availability_tv"
                     app:layout_constraintTop_toTopOf="@+id/availability_tv"
-                    tools:src="@drawable/false_icon_twinner" />
+                    tools:text="Sarieh Serdar" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

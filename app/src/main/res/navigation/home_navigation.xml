@@ -23,5 +23,27 @@
         android:name="com.comp306.kubdb.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home"
-        />
+        >
+        <action
+            android:id="@+id/home_to_bookDetails"
+            app:destination="@id/bookDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookDetailsFragment"
+        android:name="com.comp306.kubdb.fragments.BookDetailsFragment"
+        android:label="fragment_book_details"
+        tools:layout="@layout/fragment_book_details"
+        >
+        <argument
+            android:name="selectedBook"
+            app:argType="com.comp306.kubdb.data.entities.Book"
+            android:defaultValue="@null"
+            app:nullable="true"
+            />
+        <argument
+            android:name="rating"
+            app:argType="float"
+            android:defaultValue="0"
+            />
+    </fragment>
 </navigation>

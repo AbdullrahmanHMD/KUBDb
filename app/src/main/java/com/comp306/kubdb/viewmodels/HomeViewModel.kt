@@ -20,7 +20,7 @@ class HomeViewModel :
 
     fun getAverageRatingOfBooks(isbns: List<Int>) {
         viewModelScope.launch {
-            averageBookRatings = bookRepository.getAverageRating(isbns).asLiveData()
+            averageBookRatings = bookRepository.getAverageRatings(isbns).asLiveData()
         }
     }
 

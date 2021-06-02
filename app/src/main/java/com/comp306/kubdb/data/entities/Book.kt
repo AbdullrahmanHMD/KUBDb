@@ -2,7 +2,7 @@ package com.comp306.kubdb.data.entities
 
 import androidx.room.*
 import com.comp306.kubdb.data.DatetimeTypeConverter
-
+import java.io.Serializable
 @Entity(
     tableName = "books",
     foreignKeys = [ForeignKey(
@@ -32,7 +32,7 @@ data class Book(
     @ColumnInfo(name = "return_date") val returnDate: String?,
     @ColumnInfo(name = "borrowed") val isBorrowed: Boolean?,
     @ColumnInfo(name = "borrower_id") val borrower: Int?
-) {
+): Serializable {
 
     override fun toString(): String {
         return "ID: $isbn, title: $title"

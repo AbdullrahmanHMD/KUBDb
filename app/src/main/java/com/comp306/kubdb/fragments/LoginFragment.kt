@@ -17,21 +17,12 @@ private const val ARG_PARAM2 = "param2"
 
 
 class LoginFragment : BaseFragment() {
-    private var param1: String? = null
-    private var param2: String? = null
+
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var root: View
     private val viewModel: LoginViewModel by viewModels {
         LoginViewModelFactory((activity?.application as LibraryApplication).userRepository)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
     }
 
     override fun onCreateView(
@@ -56,39 +47,41 @@ class LoginFragment : BaseFragment() {
     }
 
     private fun login() {
-//        navigate(R.id.action_loginFragment_to_homeFragment)
-        binding.loginButton.isEnabled = false
-        val id = binding.usernameEdittext.text.toString()
-        val password = binding.passwordEdittext.text.toString()
+        navigate(R.id.action_loginFragment_to_homeFragment)
+//        binding.loginButton.isEnabled = false
+//        val id = binding.usernameEdittext.text.toString()
+//        val password = binding.passwordEdittext.text.toString()
+//
+//        if (id.isEmpty() || password.isEmpty()) {
+//            Toast.makeText(this.context, "Please fill in login information", Toast.LENGTH_LONG)
+//                .show()
+        //                        binding.loginButton.isEnabled = true
 
-        if (id.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this.context, "Please fill in login information", Toast.LENGTH_LONG)
-                .show()
-            return
-        }
-
-        viewModel.login(viewLifecycleOwner, id.toInt(), password)
-        viewModel.loggedIn.observe(
-            viewLifecycleOwner,
-            {
-                it?.let { successfulLogin ->
-                    if (successfulLogin) {
-                        navigate(R.id.action_loginFragment_to_homeFragment)
-
-                        viewModel.currentUser.value?.let { user ->
-                            getMainActivity().currentUser = user
-                            Toast.makeText(context, "Welcome, ${user.name}!", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    } else {
-                        Toast.makeText(context, "Incorrect ID/Password", Toast.LENGTH_SHORT).show()
-                        binding.loginButton.isEnabled = true
-                    }
-
-                    viewModel.loggedIn.value = null
-                }
-            }
-        )
+//            return
+//        }
+//
+//        viewModel.login(viewLifecycleOwner, id.toInt(), password)
+//        viewModel.loggedIn.observe(
+//            viewLifecycleOwner,
+//            {
+//                it?.let { successfulLogin ->
+//                    if (successfulLogin) {
+//                        navigate(R.id.action_loginFragment_to_homeFragment)
+//
+//                        viewModel.currentUser.value?.let { user ->
+//                            getMainActivity().currentUser = user
+//                            Toast.makeText(context, "Welcome, ${user.name}!", Toast.LENGTH_SHORT)
+//                                .show()
+//                        }
+//                    } else {
+//                        Toast.makeText(context, "Incorrect ID/Password", Toast.LENGTH_SHORT).show()
+//                        binding.loginButton.isEnabled = true
+//                    }
+//
+//                    viewModel.loggedIn.value = null
+//                }
+//            }
+//        )
     }
 
 }
