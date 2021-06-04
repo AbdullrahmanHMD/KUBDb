@@ -12,13 +12,13 @@ class BookRepository(private val bookDao: BookDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    fun getAverageRatings(isbns: List<Int>): Flow<List<BookAverageRating>> {
+    suspend fun getAverageRatings(isbns: List<Int>): Flow<List<BookAverageRating>> {
         return bookDao.getAverageRatings(isbns)
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    fun getAverageRating(isbn: Int): Flow<RealNumber> {
+    suspend fun getAverageRating(isbn: Int): Flow<RealNumber> {
         return bookDao.getAverageRating(isbn)
     }
 

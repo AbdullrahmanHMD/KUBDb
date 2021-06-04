@@ -8,6 +8,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.comp306.kubdb.R
+import com.comp306.kubdb.asCommaSeparatedString
 import com.comp306.kubdb.data.custom.RealNumber
 import com.comp306.kubdb.databinding.FragmentBookDetailsBinding
 import com.comp306.kubdb.precisionTo
@@ -24,7 +25,7 @@ class BookDetailsFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setRepository(app.bookRepository)
+        viewModel.setRepositories(app.bookRepository, app.authorRepository)
         viewModel.setArgs(arguments.selectedBook, RealNumber(arguments.rating))
     }
 
@@ -47,6 +48,9 @@ class BookDetailsFragment : BaseFragment() {
                     it.setTextColor(ActivityCompat.getColor(requireContext(), R.color.teal_700))
                 }
             }
+            viewModel.authorNames.observe(viewLifecycleOwner, { authors ->
+                binding.authors = authors.map { it.fullName }.asCommaSeparatedString()
+            })
         }
 
         if (viewModel.rating.value != null) {

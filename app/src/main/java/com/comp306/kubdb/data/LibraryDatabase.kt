@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.comp306.kubdb.dao.AuthorDao
 import com.comp306.kubdb.dao.BookDao
 import com.comp306.kubdb.dao.UserDao
 import com.comp306.kubdb.data.entities.*
@@ -20,6 +21,7 @@ abstract class LibraryDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
     abstract fun bookDao(): BookDao
+    abstract fun AuthorDao(): AuthorDao
 
     companion object {
 
