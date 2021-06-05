@@ -3,6 +3,7 @@ package com.comp306.kubdb.data.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "users")
 data class User(
@@ -14,7 +15,7 @@ data class User(
     @ColumnInfo(name = "city") val city: String?,
     @ColumnInfo(name = "state") val state: String?,
     @ColumnInfo(name = "country") val country: String?
-) {
+): Serializable {
     override fun toString(): String {
         return "ID: $userID, name: $name $lastName, age: $age, Location: $city, $state/$country"
     }

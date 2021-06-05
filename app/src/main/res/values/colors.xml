@@ -9,4 +9,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#7C7C7C</color>
+
+    <color name="primary">#608A98</color>
+    <color name="primary_dark">#214961</color>
+    <color name="accent">#ffd53b</color>
+
 </resources>

@@ -4,27 +4,27 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.comp306.kubdb.data.entities.Book
-import com.comp306.kubdb.databinding.SquareListItemBinding
+import com.comp306.kubdb.databinding.SquareListItemLargeBinding
 import com.comp306.kubdb.precisionTo
 
-class HomeBookAdapter(
+class HomeLargeBookAdapter(
     private val books: List<Book>,
     private val ratings: Map<Int, Float>,
     private val clickListener: ((Book) -> Unit)
 ) :
-    RecyclerView.Adapter<BookHolder>() {
+    RecyclerView.Adapter<LargeBookHolder>() {
 
     init {
         println("NUMBER OF BOOKS: ${books.size}")
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LargeBookHolder {
         val binding =
-            SquareListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return BookHolder(binding, clickListener)
+            SquareListItemLargeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return LargeBookHolder(binding, clickListener)
     }
 
-    override fun onBindViewHolder(holder: BookHolder, position: Int) {
+    override fun onBindViewHolder(holder: LargeBookHolder, position: Int) {
         val current = books[position]
         holder.bind(current, ratings[current.isbn]!!)
     }
@@ -35,7 +35,7 @@ class HomeBookAdapter(
 
 }
 
-class BookHolder(val binding: SquareListItemBinding, val clickListener: (Book) -> Unit) :
+class LargeBookHolder(val binding: SquareListItemLargeBinding, val clickListener: (Book) -> Unit) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(book: Book, rating: Float) {

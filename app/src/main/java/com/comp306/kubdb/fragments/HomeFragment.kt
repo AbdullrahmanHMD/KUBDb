@@ -1,15 +1,15 @@
 package com.comp306.kubdb.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.comp306.kubdb.LibraryApplication
-import com.comp306.kubdb.activities.MainActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.comp306.kubdb.adapters.HomeBookAdapter
+import com.comp306.kubdb.adapters.HomeLargeBookAdapter
 import com.comp306.kubdb.databinding.FragmentHomeBinding
 import com.comp306.kubdb.viewmodels.HomeViewModel
 import com.comp306.kubdb.viewmodels.HomeViewModelFactory
@@ -18,6 +18,8 @@ import com.comp306.kubdb.viewmodels.HomeViewModelFactory
 class HomeFragment : BaseFragment() {
 
     lateinit var binding: FragmentHomeBinding
+    private val arguments: HomeFragmentArgs by navArgs()
+
 
     private val viewModel: HomeViewModel by viewModels {
         HomeViewModelFactory()
@@ -26,6 +28,9 @@ class HomeFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setRepositories(app.userRepository, app.bookRepository)
+        arguments.currentUser?.let {
+            viewModel.currentUser = it
+        }
     }
 
     override fun onCreateView(
@@ -34,10 +39,15 @@ class HomeFragment : BaseFragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         binding.fragment = this
+        showBooksOfBestAuthor()
+        showRecommendedBooks()
+        return binding.root
+    }
 
+    private fun showBooksOfBestAuthor() {
         viewModel.booksOfTopAuthor.observe(viewLifecycleOwner, { books ->
-            viewModel.getAverageRatingOfBooks(books.map { it.isbn })
-            viewModel.averageBookRatings.observe(viewLifecycleOwner, { bookRatings ->
+            viewModel.getAverageRatingOfBestAuthor(books.map { it.isbn })
+            viewModel.bookRatingsOfBestAuthor.observe(viewLifecycleOwner, { bookRatings ->
                 val ratingsMap = bookRatings.map { it.getAsMapEntry() }.toMap()
                 val adapter = HomeBookAdapter(books, ratingsMap) { book ->
                     navigate(
@@ -47,22 +57,68 @@ class HomeFragment : BaseFragment() {
                         )
                     )
                 }
-                binding.category1Recycler.adapter.let {
-                    if (it == null) {
-                        binding.category1Recycler.adapter = adapter
-                        binding.category1Recycler.layoutManager =
-                            LinearLayoutManager(
-                                context,
-                                LinearLayoutManager.HORIZONTAL,
-                                false
-                            )
-                    }
-                }
+                setAdapter(binding.category2Recycler, adapter)
+
+                binding.category2Recycler.animate().alpha(1f).setDuration(650)
+                binding.category2Title.animate().alpha(1f).setDuration(300)
+
 
             })
         })
+    }
 
-        return binding.root
+    private fun showRecommendedBooks() {
+        viewModel.recommendedBooks?.observe(viewLifecycleOwner, { books ->
+            viewModel.getAverageRatingOfRecommendations(books.map { it.isbn })
+            viewModel.bookRatingsOfRecommendation.observe(viewLifecycleOwner, { bookRatings ->
+                val ratingsMap = bookRatings.map { it.getAsMapEntry() }.toMap()
+                val adapter = HomeLargeBookAdapter(books, ratingsMap) { book ->
+                    navigate(
+                        HomeFragmentDirections.homeToBookDetails(
+                            book,
+                            ratingsMap[book.isbn]!!
+                        )
+                    )
+                }
+                setAdapter(binding.category1Recycler, adapter)
+            })
+            binding.category1Title.animate().alpha(1f).setDuration(300)
+            binding.category1Recycler.animate().alpha(1f).setDuration(650)
+        })
+    }
+
+    private fun setAdapter(
+        recyclerView: RecyclerView,
+        adapter: HomeBookAdapter
+    ) {
+        recyclerView.adapter.let {
+            if (it == null) {
+                recyclerView.adapter = adapter
+                recyclerView.layoutManager =
+                    LinearLayoutManager(
+                        context,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+            }
+        }
+    }
+
+    private fun setAdapter(
+        recyclerView: RecyclerView,
+        adapter: HomeLargeBookAdapter
+    ) {
+        recyclerView.adapter.let {
+            if (it == null) {
+                recyclerView.adapter = adapter
+                recyclerView.layoutManager =
+                    LinearLayoutManager(
+                        context,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+            }
+        }
     }
 
 

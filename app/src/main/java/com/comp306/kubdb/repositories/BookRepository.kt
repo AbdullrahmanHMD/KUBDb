@@ -28,5 +28,14 @@ class BookRepository(private val bookDao: BookDao) {
         return bookDao.getBooksOFTopAuthor()
     }
 
-
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    fun getRecommendedBooks(age: Int?, state: String?): Flow<List<Book>>? {
+        if (age != null && state != null) {
+            println("NOT NULL IN REPO: $age, $state")
+            return bookDao.getRecommendedBooks(age, state)
+        }
+        print("NULL IN REPO")
+        return null
+    }
 }

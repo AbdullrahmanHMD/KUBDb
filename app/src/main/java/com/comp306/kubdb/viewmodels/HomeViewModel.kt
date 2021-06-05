@@ -3,6 +3,7 @@ package com.comp306.kubdb.viewmodels
 import androidx.lifecycle.*
 import com.comp306.kubdb.data.custom.BookAverageRating
 import com.comp306.kubdb.data.entities.Book
+import com.comp306.kubdb.data.entities.User
 import com.comp306.kubdb.repositories.BookRepository
 import com.comp306.kubdb.repositories.UserRepository
 import kotlinx.coroutines.launch
@@ -11,23 +12,37 @@ import kotlinx.coroutines.launch
 class HomeViewModel :
     ViewModel() {
 
+    lateinit var currentUser: User
     private lateinit var userRepository: UserRepository
     private lateinit var bookRepository: BookRepository
 
-    lateinit var booksOfTopAuthor: LiveData<List<Book>>
-    lateinit var averageBookRatings: LiveData<List<BookAverageRating>>
+    val booksOfTopAuthor: LiveData<List<Book>> by lazy {
+        bookRepository.getBooksOFTopAuthor().asLiveData()
+    }
+
+    val recommendedBooks: LiveData<List<Book>>? by lazy {
+        bookRepository.getRecommendedBooks(currentUser.age, currentUser.state)?.asLiveData()
+    }
+
+    lateinit var bookRatingsOfBestAuthor: LiveData<List<BookAverageRating>>
+    lateinit var bookRatingsOfRecommendation: LiveData<List<BookAverageRating>>
 
 
-    fun getAverageRatingOfBooks(isbns: List<Int>) {
+    fun getAverageRatingOfBestAuthor(isbns: List<Int>) {
         viewModelScope.launch {
-            averageBookRatings = bookRepository.getAverageRatings(isbns).asLiveData()
+            bookRatingsOfBestAuthor = bookRepository.getAverageRatings(isbns).asLiveData()
+        }
+    }
+
+    fun getAverageRatingOfRecommendations(isbns: List<Int>) {
+        viewModelScope.launch {
+            bookRatingsOfRecommendation = bookRepository.getAverageRatings(isbns).asLiveData()
         }
     }
 
     fun setRepositories(userRepository: UserRepository, bookRepository: BookRepository) {
         this.userRepository = userRepository
         this.bookRepository = bookRepository
-        booksOfTopAuthor = bookRepository.getBooksOFTopAuthor().asLiveData()
     }
 }
 
