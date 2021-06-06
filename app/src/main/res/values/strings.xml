@@ -12,4 +12,9 @@
     <string name="authors">Authors:</string>
     <string name="publisher">Publisher</string>
     <string name="book_details">Book Details</string>
+    <string name="category_3">Category 3</string>
+    <string name="books_of_best_author">Books of Best Author</string>
+    <string name="books_for_you">Books for you</string>
+    <string name="log_out">Log out</string>
+    <string name="all_books">All Books</string>
 </resources>

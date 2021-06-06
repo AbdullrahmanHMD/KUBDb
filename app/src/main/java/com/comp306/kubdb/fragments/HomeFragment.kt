@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +11,6 @@ import com.comp306.kubdb.adapters.HomeBookAdapter
 import com.comp306.kubdb.adapters.HomeLargeBookAdapter
 import com.comp306.kubdb.databinding.FragmentHomeBinding
 import com.comp306.kubdb.viewmodels.HomeViewModel
-import com.comp306.kubdb.viewmodels.HomeViewModelFactory
 
 
 class HomeFragment : BaseFragment() {
@@ -21,16 +19,16 @@ class HomeFragment : BaseFragment() {
     private val arguments: HomeFragmentArgs by navArgs()
 
 
-    private val viewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory()
-    }
+    private val viewModel: HomeViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setRepositories(app.userRepository, app.bookRepository)
+        viewModel?.setRepositories(app.userRepository, app.bookRepository)
         arguments.currentUser?.let {
-            viewModel.currentUser = it
+            viewModel?.currentUser = it
         }
+
+        getMainActivity().showBottomNav()
     }
 
     override fun onCreateView(
@@ -57,11 +55,11 @@ class HomeFragment : BaseFragment() {
                         )
                     )
                 }
+                binding.pb1.visibility = View.GONE
                 setAdapter(binding.category2Recycler, adapter)
 
-                binding.category2Recycler.animate().alpha(1f).setDuration(650)
-                binding.category2Title.animate().alpha(1f).setDuration(300)
-
+                binding.category2Recycler.animate().alpha(1f).duration = 650
+                binding.category2Title.animate().alpha(1f).duration = 300
 
             })
         })
@@ -80,6 +78,7 @@ class HomeFragment : BaseFragment() {
                         )
                     )
                 }
+                binding.pb2.visibility = View.GONE
                 setAdapter(binding.category1Recycler, adapter)
             })
             binding.category1Title.animate().alpha(1f).setDuration(300)

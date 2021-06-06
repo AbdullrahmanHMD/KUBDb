@@ -5,6 +5,7 @@
     tools:context=".HomeFragment">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="fragment"
@@ -18,7 +19,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:background="@color/light_gray">
 
@@ -99,9 +100,8 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="100dp"
                     android:layout_marginBottom="10dp"
-                    android:alpha="0"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Books for you"
+                    android:text="@string/books_for_you"
                     android:textColor="@color/white"
                     android:textSize="35sp"
                     app:layout_constraintBottom_toTopOf="@+id/category1_recycler"
@@ -113,7 +113,6 @@
                     android:id="@+id/category1_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="263dp"
-                    android:alpha="0"
                     tools:listitem="@layout/square_list_item_large" />
 
             </LinearLayout>
@@ -123,8 +122,11 @@
                 android:id="@+id/category2_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@color/white"
                 android:elevation="2dp"
                 android:orientation="vertical"
+                android:paddingBottom="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/category1_layout"
                 app:layout_constraintVertical_bias="0.0">
@@ -136,9 +138,8 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:alpha="0"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Books of Best Author"
+                    android:text="@string/books_of_best_author"
                     android:textColor="@color/primary_dark"
                     android:textSize="28sp"
                     app:layout_constraintBottom_toTopOf="@+id/category1_recycler"
@@ -151,7 +152,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
                     android:layout_marginTop="0dp"
-                    android:alpha="0"
                     app:layout_constraintHorizontal_bias="0.5"
                     tools:listitem="@layout/square_list_item" />
             </LinearLayout>
@@ -160,8 +160,11 @@
                 android:id="@+id/category3_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@color/white"
                 android:elevation="2dp"
                 android:orientation="vertical"
+                android:paddingBottom="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/category2_layout"
                 app:layout_constraintVertical_bias="0.0">
@@ -173,9 +176,8 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:alpha="1"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Category 3"
+                    android:text="@string/category_3"
                     android:textColor="@color/primary_dark"
                     android:textSize="28sp"
                     app:layout_constraintBottom_toTopOf="@+id/category1_recycler"
@@ -188,7 +190,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
                     android:layout_marginTop="0dp"
-                    android:alpha="1"
                     app:layout_constraintHorizontal_bias="0.5"
                     tools:listitem="@layout/square_list_item" />
             </LinearLayout>
@@ -197,6 +198,7 @@
                 android:id="@+id/home_bg"
                 android:layout_width="0dp"
                 android:layout_height="210dp"
+                android:contentDescription="@null"
                 android:elevation="0dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/abstract_bg_light"
@@ -205,6 +207,45 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_toolbar" />
 
+            <ProgressBar
+                android:id="@+id/pb1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="90dp"
+                android:elevation="4dp"
+                android:indeterminateTint="@color/accent"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/category1_layout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/category1_layout"
+                tools:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/pb2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:indeterminateTint="@color/accent"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/category2_layout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/category2_layout"
+                tools:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/pb3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:indeterminateTint="@color/accent"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/category3_layout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/category3_layout"
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

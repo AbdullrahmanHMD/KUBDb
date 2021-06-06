@@ -12,7 +12,7 @@ abstract class BaseFragment : Fragment() {
 
     protected lateinit var app: LibraryApplication
 
-    private val navController by lazy {
+    public val navController by lazy {
         findNavController()
     }
 
