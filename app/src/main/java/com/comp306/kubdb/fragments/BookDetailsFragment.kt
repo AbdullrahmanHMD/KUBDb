@@ -69,7 +69,7 @@ class BookDetailsFragment : BaseFragment() {
 
 
     fun onBackClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-        getMainActivity().onBackPressed()
+        getMainActivity()?.onBackPressed()
     }
 
 }

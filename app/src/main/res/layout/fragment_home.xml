@@ -5,6 +5,7 @@
     tools:context=".HomeFragment">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -104,15 +105,16 @@
                     android:text="@string/books_for_you"
                     android:textColor="@color/white"
                     android:textSize="35sp"
+                    android:alpha="0"
                     app:layout_constraintBottom_toTopOf="@+id/category1_recycler"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/home_bg"
-                    tools:visibility="visible" />
+                    app:layout_constraintTop_toTopOf="@+id/home_bg" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/category1_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="263dp"
+                    android:alpha="0"
                     tools:listitem="@layout/square_list_item_large" />
 
             </LinearLayout>
@@ -142,16 +144,17 @@
                     android:text="@string/books_of_best_author"
                     android:textColor="@color/primary_dark"
                     android:textSize="28sp"
+                    android:alpha="0"
                     app:layout_constraintBottom_toTopOf="@+id/category1_recycler"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/home_bg"
-                    tools:visibility="visible" />
+                    app:layout_constraintTop_toTopOf="@+id/home_bg" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/category2_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
                     android:layout_marginTop="0dp"
+                    android:alpha="0"
                     app:layout_constraintHorizontal_bias="0.5"
                     tools:listitem="@layout/square_list_item" />
             </LinearLayout>
@@ -180,6 +183,7 @@
                     android:text="@string/category_3"
                     android:textColor="@color/primary_dark"
                     android:textSize="28sp"
+                    android:alpha="0"
                     app:layout_constraintBottom_toTopOf="@+id/category1_recycler"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/home_bg"
@@ -190,6 +194,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
                     android:layout_marginTop="0dp"
+                    android:alpha="0"
                     app:layout_constraintHorizontal_bias="0.5"
                     tools:listitem="@layout/square_list_item" />
             </LinearLayout>
@@ -214,12 +219,10 @@
                 android:layout_marginTop="90dp"
                 android:elevation="4dp"
                 android:indeterminateTint="@color/accent"
-                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@id/category1_layout"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/category1_layout"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/category1_layout" />
 
             <ProgressBar
                 android:id="@+id/pb2"
@@ -227,12 +230,10 @@
                 android:layout_height="wrap_content"
                 android:elevation="4dp"
                 android:indeterminateTint="@color/accent"
-                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@+id/category2_layout"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/category2_layout"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/category2_layout" />
 
             <ProgressBar
                 android:id="@+id/pb3"
@@ -240,12 +241,10 @@
                 android:layout_height="wrap_content"
                 android:elevation="4dp"
                 android:indeterminateTint="@color/accent"
-                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@id/category3_layout"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/category3_layout"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="@id/category3_layout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

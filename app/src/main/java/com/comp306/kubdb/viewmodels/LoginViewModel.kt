@@ -12,9 +12,6 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
     val loggedIn: MutableLiveData<Boolean> = MutableLiveData(null)
     lateinit var currentUser: LiveData<User>
-//    suspend fun getUser(userID: String): User {
-////        return currentUser = repository.getUser(userID).asLiveData()
-//    }
 
     fun login(lifecycleOwner: LifecycleOwner, userID: Int, password: String) {
         viewModelScope.launch {

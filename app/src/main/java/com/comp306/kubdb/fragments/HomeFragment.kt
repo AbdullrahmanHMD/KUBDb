@@ -4,31 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.comp306.kubdb.adapters.HomeBookAdapter
 import com.comp306.kubdb.adapters.HomeLargeBookAdapter
 import com.comp306.kubdb.databinding.FragmentHomeBinding
 import com.comp306.kubdb.viewmodels.HomeViewModel
+import com.comp306.kubdb.viewmodels.HomeViewModelFactory
 
 
 class HomeFragment : BaseFragment() {
 
     lateinit var binding: FragmentHomeBinding
-    private val arguments: HomeFragmentArgs by navArgs()
 
-
-    private val viewModel: HomeViewModel? = null
+    private val viewModel: HomeViewModel by viewModels {
+        HomeViewModelFactory()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel?.setRepositories(app.userRepository, app.bookRepository)
-        arguments.currentUser?.let {
-            viewModel?.currentUser = it
+        viewModel.setRepositories(app.userRepository, app.bookRepository)
+        getMainActivity()?.currentUser?.let {
+            viewModel.currentUser = it
+            println("USER SET")
         }
-
-        getMainActivity().showBottomNav()
     }
 
     override fun onCreateView(
@@ -37,6 +37,7 @@ class HomeFragment : BaseFragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         binding.fragment = this
+        showHeaders()
         showBooksOfBestAuthor()
         showRecommendedBooks()
         return binding.root
@@ -44,6 +45,7 @@ class HomeFragment : BaseFragment() {
 
     private fun showBooksOfBestAuthor() {
         viewModel.booksOfTopAuthor.observe(viewLifecycleOwner, { books ->
+            binding.pb2.visibility = View.GONE
             viewModel.getAverageRatingOfBestAuthor(books.map { it.isbn })
             viewModel.bookRatingsOfBestAuthor.observe(viewLifecycleOwner, { bookRatings ->
                 val ratingsMap = bookRatings.map { it.getAsMapEntry() }.toMap()
@@ -55,18 +57,16 @@ class HomeFragment : BaseFragment() {
                         )
                     )
                 }
-                binding.pb1.visibility = View.GONE
                 setAdapter(binding.category2Recycler, adapter)
 
                 binding.category2Recycler.animate().alpha(1f).duration = 650
-                binding.category2Title.animate().alpha(1f).duration = 300
-
             })
         })
     }
 
     private fun showRecommendedBooks() {
         viewModel.recommendedBooks?.observe(viewLifecycleOwner, { books ->
+            binding.pb1.visibility = View.GONE
             viewModel.getAverageRatingOfRecommendations(books.map { it.isbn })
             viewModel.bookRatingsOfRecommendation.observe(viewLifecycleOwner, { bookRatings ->
                 val ratingsMap = bookRatings.map { it.getAsMapEntry() }.toMap()
@@ -78,12 +78,18 @@ class HomeFragment : BaseFragment() {
                         )
                     )
                 }
-                binding.pb2.visibility = View.GONE
                 setAdapter(binding.category1Recycler, adapter)
             })
-            binding.category1Title.animate().alpha(1f).setDuration(300)
-            binding.category1Recycler.animate().alpha(1f).setDuration(650)
+            binding.category1Recycler.animate().alpha(1f).duration = 650
         })
+    }
+
+    private fun showHeaders() {
+        binding.category1Title.animate().alpha(1f).setDuration(650).withEndAction {
+            binding.category2Title.animate().alpha(1f).setDuration(650).withEndAction {
+                // animate the next here
+            }
+        }
     }
 
     private fun setAdapter(

@@ -32,8 +32,8 @@ abstract class BaseFragment : Fragment() {
         this.navController.navigateUp()
     }
 
-    fun getMainActivity(): MainActivity {
-        return activity as MainActivity
+    fun getMainActivity(): MainActivity? {
+        return activity as MainActivity?
     }
 
     override fun onAttach(context: Context) {

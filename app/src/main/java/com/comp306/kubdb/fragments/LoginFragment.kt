@@ -32,7 +32,7 @@ class LoginFragment : BaseFragment() {
         binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
         root = binding.root
         binding.loginButton.setOnClickListener {
-            login()
+//            login()
         }
 
 
@@ -46,44 +46,43 @@ class LoginFragment : BaseFragment() {
         return root
     }
 
-    private fun login() {
-//        navigate(R.id.action_loginFragment_to_homeFragment)
-        binding.loginButton.isEnabled = false
-        getMainActivity().hideKeyboard()
-        val id = binding.usernameEdittext.text.toString()
-        val password = binding.passwordEdittext.text.toString()
-
-        if (id.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this.context, "Please fill in login information", Toast.LENGTH_LONG)
-                .show()
-            binding.loginButton.isEnabled = true
-
-            return
-        }
-
-        viewModel.login(viewLifecycleOwner, id.toInt(), password)
-        viewModel.loggedIn.observe(
-            viewLifecycleOwner,
-            {
-                it?.let { successfulLogin ->
-                    if (successfulLogin) {
-                        navigate(
-                            LoginFragmentDirections.loginToHome(viewModel.currentUser.value!!)
-                        )
-                        viewModel.currentUser.value?.let { user ->
-                            getMainActivity().currentUser = user
-                            Toast.makeText(context, "Welcome, ${user.name}!", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    } else {
-                        Toast.makeText(context, "Incorrect ID/Password", Toast.LENGTH_SHORT).show()
-                        binding.loginButton.isEnabled = true
-                    }
-
-                    viewModel.loggedIn.value = null
-                }
-            }
-        )
-    }
+//    private fun login() {
+////        navigate(R.id.action_loginFragment_to_homeFragment)
+//        binding.loginButton.isEnabled = false
+//        getMainActivity().hideKeyboard()
+//        val id = binding.usernameEdittext.text.toString()
+//        val password = binding.passwordEdittext.text.toString()
+//
+//        if (id.isEmpty() || password.isEmpty()) {
+//            Toast.makeText(this.context, "Please fill in login information", Toast.LENGTH_LONG)
+//                .show()
+//            binding.loginButton.isEnabled = true
+//
+//            return
+//        }
+//
+//        viewModel.login(viewLifecycleOwner, id.toInt(), password)
+//        viewModel.loggedIn.observe(
+//            viewLifecycleOwner,
+//            {
+//                it?.let { successfulLogin ->
+//                    if (successfulLogin) {
+//                        navigate(
+//                            LoginFragmentDirections.loginToHome(viewModel.currentUser.value!!)
+//                        )
+//                        viewModel.currentUser.value?.let { user ->
+//                            Toast.makeText(context, "Welcome, ${user.name}!", Toast.LENGTH_SHORT)
+//                                .show()
+//                        }
+//                    } else {
+//                        Toast.makeText(context, "Incorrect ID/Password", Toast.LENGTH_SHORT).show()
+//                        binding.loginButton.isEnabled = true
+//                    }
+//
+//                    viewModel.loggedIn.value = null
+//                }
+//            }
+//        )
+//    }
 
 }

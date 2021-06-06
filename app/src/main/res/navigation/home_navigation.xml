@@ -3,31 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/homeFragment">
 
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.comp306.kubdb.fragments.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/loginToHome"
-            app:destination="@id/homeFragment"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_close_exit"
-            app:popUpTo="@id/home_navigation"
-            app:popUpToInclusive="true" />
-    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.comp306.kubdb.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
-        <argument
-            android:name="currentUser"
-            android:defaultValue="@null"
-            app:argType="com.comp306.kubdb.data.entities.User"
-            app:nullable="true" />
         <action
             android:id="@+id/home_to_bookDetails"
             app:destination="@id/bookDetailsFragment" />
