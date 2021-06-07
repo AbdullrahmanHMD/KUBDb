@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.comp306.kubdb.adapters.HomeBookAdapter
 import com.comp306.kubdb.adapters.HomeLargeBookAdapter
 import com.comp306.kubdb.data.custom.RealNumber
@@ -49,7 +51,7 @@ class HomeFragment : BaseFragment() {
             viewModel.getAverageRatingOfBestAuthor(books.map { it.isbn })
             viewModel.bookRatingsOfBestAuthor.observe(viewLifecycleOwner, { bookRatings ->
                 val ratingsMap = bookRatings.map { it.getAsMapEntry() }.toMap()
-                val adapter = HomeBookAdapter(books, ratingsMap) { book ->
+                val adapter = HomeBookAdapter(books, ratingsMap, ::loader) { book ->
                     navigate(
                         HomeFragmentDirections.homeToBookDetails(
                             book,
@@ -70,7 +72,7 @@ class HomeFragment : BaseFragment() {
             viewModel.getAverageRatingOfRecommendations(books.map { it.isbn })
             viewModel.bookRatingsOfRecommendation.observe(viewLifecycleOwner, { bookRatings ->
                 val ratingsMap = bookRatings.map { it.getAsMapEntry() }.toMap()
-                val adapter = HomeLargeBookAdapter(books, ratingsMap) { book ->
+                val adapter = HomeLargeBookAdapter(books, ratingsMap, ::loader) { book ->
                     navigate(
                         HomeFragmentDirections.homeToBookDetails(
                             book,
@@ -124,6 +126,10 @@ class HomeFragment : BaseFragment() {
                     )
             }
         }
+    }
+
+    private fun loader(url: String, imageview: ImageView){
+        Glide.with(this).load(url).into(imageview)
     }
 
 

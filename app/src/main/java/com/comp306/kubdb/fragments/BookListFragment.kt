@@ -26,7 +26,7 @@ class BookListFragment : BaseFragment() {
         BookListViewModelFactory()
     }
 
-    fun loader(url: String, imageview: ImageView){
+    private fun loader(url: String, imageview: ImageView){
         Glide.with(this).load(url).into(imageview)
     }
 

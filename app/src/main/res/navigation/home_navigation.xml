@@ -17,8 +17,8 @@
             android:id="@+id/action_homeFragment_to_bookListFragment"
             app:destination="@id/bookListFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_logoutFragment"
-            app:destination="@id/logoutFragment" />
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
@@ -49,9 +49,9 @@
     </fragment>
 
     <fragment
-        android:id="@+id/logoutFragment"
-        android:name="com.comp306.kubdb.fragments.LogoutFragment"
-        android:label="fragment_logout"
-        tools:layout="@layout/fragment_logout" />
+        android:id="@+id/profileFragment"
+        android:name="com.comp306.kubdb.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>

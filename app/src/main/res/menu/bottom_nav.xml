@@ -3,16 +3,16 @@
 
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/ic_baseline_home_24"
         android:title="@string/home" />
 
     <item
         android:id="@+id/bookListFragment"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/ic_baseline_menu_book_24"
         android:title="@string/all_books" />
 
     <item
-        android:id="@+id/logoutFragment"
-        android:icon="@drawable/ic_launcher_background"
-        android:title="@string/log_out" />
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/my_profile" />
 </menu>

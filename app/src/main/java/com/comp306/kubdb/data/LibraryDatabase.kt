@@ -13,8 +13,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Database(
-    entities = arrayOf(User::class, Book::class, Author::class, Rating::class, Writes::class),
-    version = 2,
+    entities = [User::class, Book::class, Author::class, Rating::class, Writes::class],
+    version = 3,
     exportSchema = false
 )
 abstract class LibraryDatabase : RoomDatabase() {

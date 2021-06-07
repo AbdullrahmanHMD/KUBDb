@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.comp306.kubdb.R
 import com.comp306.kubdb.asCommaSeparatedString
-import com.comp306.kubdb.data.custom.RealNumber
 import com.comp306.kubdb.databinding.FragmentBookDetailsBinding
 import com.comp306.kubdb.precisionTo
 import com.comp306.kubdb.viewmodels.BookDetailViewModel
@@ -48,6 +48,7 @@ class BookDetailsFragment : BaseFragment() {
                     it.setTextColor(ActivityCompat.getColor(requireContext(), R.color.teal_700))
                 }
             }
+            loadImage(book.largeImageUrl)
             viewModel.authorNames.observe(viewLifecycleOwner, { authors ->
                 binding.authors = authors.map { it.fullName }.asCommaSeparatedString()
             })
@@ -65,6 +66,13 @@ class BookDetailsFragment : BaseFragment() {
         }
 
         return binding.root
+    }
+
+    private fun loadImage(url: String?) {
+        if (url == null)
+            return //todo: set placeholder image here instead
+        println("URL: $url")
+        Glide.with(this).load(url).into(binding.bookDetailsImg)
     }
 
 
