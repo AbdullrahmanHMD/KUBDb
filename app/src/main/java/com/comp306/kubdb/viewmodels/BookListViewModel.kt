@@ -11,7 +11,7 @@ class BookListViewModel :
     val allBooks: LiveData<List<Book>>? by lazy {
         bookRepository.getAllBooks().asLiveData()
     }
-    val additionalBooks: MutableLiveData<List<Book>> = MutableLiveData(listOf())
+    var additionalBooks: LiveData<List<Book>> = MutableLiveData()
 
     fun setRepositories(bookRepository: BookRepository) {
         this.bookRepository = bookRepository
@@ -19,10 +19,7 @@ class BookListViewModel :
 
     fun fetchMore(lastTotalItemCount: Int) {
         viewModelScope.launch {
-            val tmp = bookRepository.getMoreBooks(lastTotalItemCount).asLiveData()
-            tmp.value?.let {
-                additionalBooks.value = it
-            }
+            additionalBooks = bookRepository.getMoreBooks(lastTotalItemCount).asLiveData()
         }
     }
 }

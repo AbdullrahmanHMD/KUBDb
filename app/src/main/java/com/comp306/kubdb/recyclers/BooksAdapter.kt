@@ -12,7 +12,7 @@ import com.comp306.kubdb.databinding.BookItemBinding
 
 class BooksAdapter(
     mbooks: List<Book>,
-    val loader: (String, ImageView) -> Unit,
+    val imageLoader: (String, ImageView) -> Unit,
     val clickEvent: ItemClickEvent
 ) : RecyclerView.Adapter<BookViewHolder>() {
 
@@ -28,7 +28,7 @@ class BooksAdapter(
     }
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
-        holder.bind(books[position], loader)
+        holder.bind(books[position], imageLoader)
     }
 
     override fun getItemCount(): Int {
@@ -53,7 +53,7 @@ class BooksAdapter(
                 books.addAll(availableBooks)
             }
             R.id.b_three -> {
-                books.addAll(unavailableBooks )
+                books.addAll(unavailableBooks)
             }
             else -> {
                 books.addAll(allBooks)
@@ -67,6 +67,7 @@ class BooksAdapter(
         allBooks.addAll(newBooks)
         unavailableBooks.addAll(newBooks.filter { it.isBorrowed == true })
         availableBooks.addAll(newBooks.filter { it.isBorrowed == false })
+        println("NEW BOOK COUNT: ${books.size}")
         notifyDataSetChanged()
     }
 }

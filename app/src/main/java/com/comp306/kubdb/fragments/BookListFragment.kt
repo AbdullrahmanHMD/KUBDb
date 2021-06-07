@@ -14,7 +14,6 @@ import com.comp306.kubdb.activities.MainActivity
 import com.comp306.kubdb.callbacks.ItemClickEvent
 import com.comp306.kubdb.databinding.FragmentBookListBinding
 import com.comp306.kubdb.recyclers.BooksAdapter
-import com.comp306.kubdb.recyclers.EndlessRecyclerViewScrollListener
 import com.comp306.kubdb.viewmodels.BookListViewModel
 import com.comp306.kubdb.viewmodels.BookListViewModelFactory
 
@@ -27,7 +26,7 @@ class BookListFragment : BaseFragment() {
         BookListViewModelFactory()
     }
 
-    private fun loader(url: String, imageview: ImageView){
+    private fun imageLoader(url: String, imageview: ImageView) {
         Glide.with(this).load(url).into(imageview)
     }
 
@@ -42,7 +41,7 @@ class BookListFragment : BaseFragment() {
             (activity as MainActivity).resources.configuration.orientation
         )
 
-        adapter = BooksAdapter(listOf(), ::loader, object : ItemClickEvent {
+        adapter = BooksAdapter(listOf(), ::imageLoader, object : ItemClickEvent {
             override fun onItemClicked(position: Int) {
                 val dataSet = adapter?.books
                 val book = dataSet!![position]
@@ -75,21 +74,32 @@ class BookListFragment : BaseFragment() {
 
 
         binding.booksRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollVertically(2)) {
-                    viewModel.fetchMore(a + 100)
-                    a += 100
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (recyclerView.canScrollVertically(1).not()) {
+                    println("CURRENT BOOK COUNT: ${adapter!!.itemCount}")
+                    println("LOADING BOOKS...")
+                    loadBooks(adapter!!.itemCount)
                 }
             }
         })
 
-        viewModel.additionalBooks.observe(viewLifecycleOwner, { n ->
-            n?.let{
-                adapter?.addNewBooks(n)
+        viewModel.additionalBooks.observe(viewLifecycleOwner, { new ->
+            new?.let {
+                adapter?.addNewBooks(new)
             }
         })
         return binding.root
+    }
+
+    private fun loadBooks(currentAmount: Int) {
+        viewModel.fetchMore(currentAmount)
+        viewModel.additionalBooks.observe(viewLifecycleOwner, { new ->
+            new?.let {
+                println("NUMBER OF NEW BOOKS: ${new.size}")
+                adapter?.addNewBooks(new)
+            }
+        })
     }
 
     fun onBackClicked(@Suppress("UNUSED_PARAMETER") view: View) {

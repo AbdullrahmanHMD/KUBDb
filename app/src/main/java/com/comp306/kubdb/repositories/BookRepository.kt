@@ -52,7 +52,7 @@ class BookRepository(private val bookDao: BookDao) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun getMoreBooks(lastTotalItemCount: Int): Flow<List<Book>> {
-        return bookDao.getMoreBooks()
+        return bookDao.getMoreBooks(lastTotalItemCount)
     }
 
 }

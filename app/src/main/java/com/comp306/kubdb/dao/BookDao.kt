@@ -29,7 +29,7 @@ interface BookDao {
     @Query("SELECT * FROM books limit 100")
     fun getAllBooks(): Flow<List<Book>>
 
-    @Query("SELECT * FROM books limit 200,1")
-    fun getMoreBooks(): Flow<List<Book>>
+    @Query("SELECT * FROM books limit :lastTotal,10")
+    fun getMoreBooks(lastTotal: Int): Flow<List<Book>>
 
 }
