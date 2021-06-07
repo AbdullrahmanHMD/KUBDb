@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.comp306.kubdb.adapters.HomeBookAdapter
 import com.comp306.kubdb.adapters.HomeLargeBookAdapter
+import com.comp306.kubdb.data.custom.RealNumber
 import com.comp306.kubdb.databinding.FragmentHomeBinding
 import com.comp306.kubdb.viewmodels.HomeViewModel
 import com.comp306.kubdb.viewmodels.HomeViewModelFactory
@@ -24,10 +25,9 @@ class HomeFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setRepositories(app.userRepository, app.bookRepository)
+        viewModel?.setRepositories(app.userRepository, app.bookRepository)
         getMainActivity()?.currentUser?.let {
             viewModel.currentUser = it
-            println("USER SET")
         }
     }
 
@@ -53,7 +53,7 @@ class HomeFragment : BaseFragment() {
                     navigate(
                         HomeFragmentDirections.homeToBookDetails(
                             book,
-                            ratingsMap[book.isbn]!!
+                            RealNumber(ratingsMap[book.isbn]!!)
                         )
                     )
                 }
@@ -74,7 +74,7 @@ class HomeFragment : BaseFragment() {
                     navigate(
                         HomeFragmentDirections.homeToBookDetails(
                             book,
-                            ratingsMap[book.isbn]!!
+                            RealNumber(ratingsMap[book.isbn]!!)
                         )
                     )
                 }

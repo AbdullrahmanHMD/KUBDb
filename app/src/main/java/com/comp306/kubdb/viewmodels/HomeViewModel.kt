@@ -13,8 +13,12 @@ class HomeViewModel :
     ViewModel() {
 
     lateinit var currentUser: User
+
     private lateinit var userRepository: UserRepository
     private lateinit var bookRepository: BookRepository
+
+    lateinit var bookRatingsOfBestAuthor: LiveData<List<BookAverageRating>>
+    lateinit var bookRatingsOfRecommendation: LiveData<List<BookAverageRating>>
 
     val booksOfTopAuthor: LiveData<List<Book>> by lazy {
         bookRepository.getBooksOFTopAuthor().asLiveData()
@@ -23,10 +27,6 @@ class HomeViewModel :
     val recommendedBooks: LiveData<List<Book>>? by lazy {
         bookRepository.getRecommendedBooks(currentUser.age, currentUser.state)?.asLiveData()
     }
-
-    lateinit var bookRatingsOfBestAuthor: LiveData<List<BookAverageRating>>
-    lateinit var bookRatingsOfRecommendation: LiveData<List<BookAverageRating>>
-
 
     fun getAverageRatingOfBestAuthor(isbns: List<Int>) {
         viewModelScope.launch {

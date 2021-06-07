@@ -24,4 +24,7 @@ interface BookDao {
     @Query("SELECT b.* FROM books b INNER JOIN (SELECT r.isbn as isbn FROM users u INNER JOIN rating r ON u.user_id = r.user_id WHERE u.state = :state AND u.age > :age - 5 AND u.age < :age + 5 AND r.rating > 1 AND u.user_id IN (SELECT u.user_id FROM users u INNER JOIN rating r ON u.user_id = r.user_id GROUP BY u.user_id, r.user_id HAVING COUNT(*) > 2)) users ON b.isbn = users.isbn LIMIT 10")
     fun getRecommendedBooks(age: Int, state: String): Flow<List<Book>>
 
+    @Query("SELECT * FROM books limit 100")
+    fun getAllBooks(): Flow<List<Book>>
+
 }

@@ -37,4 +37,11 @@ class BookRepository(private val bookDao: BookDao) {
         }
         return null
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    fun getAllBooks(): Flow<List<Book>> {
+        return bookDao.getAllBooks()
+    }
+
 }

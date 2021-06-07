@@ -2,13 +2,14 @@ package com.comp306.kubdb.recyclers
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.comp306.kubdb.callbacks.ItemClickEvent
 import com.comp306.kubdb.data.entities.Book
 import com.comp306.kubdb.databinding.BookItemBinding
 
 
-class BooksAdapter(private val mbooks: List<Book>, val clickEvent: ItemClickEvent) : RecyclerView.Adapter<BookViewHolder>() {
+class BooksAdapter(private val mbooks: List<Book>, val loader: (String, ImageView) -> Unit, val clickEvent: ItemClickEvent) : RecyclerView.Adapter<BookViewHolder>() {
 
     var books = ArrayList<Book>(mbooks)
 
@@ -19,7 +20,7 @@ class BooksAdapter(private val mbooks: List<Book>, val clickEvent: ItemClickEven
     }
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
-        holder.bind(books[position])
+        holder.bind(books[position], loader)
     }
 
     override fun getItemCount(): Int {
@@ -27,7 +28,7 @@ class BooksAdapter(private val mbooks: List<Book>, val clickEvent: ItemClickEven
     }
 
     fun addAll(newBooks: List<Book>) {
-        books.addAll(books)
+        books.addAll(newBooks)
         notifyDataSetChanged()
     }
 }

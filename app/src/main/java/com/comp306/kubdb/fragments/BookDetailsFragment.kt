@@ -26,7 +26,7 @@ class BookDetailsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setRepositories(app.bookRepository, app.authorRepository)
-        viewModel.setArgs(arguments.selectedBook, RealNumber(arguments.rating))
+        viewModel.setArgs(arguments.selectedBook, arguments.rating)
     }
 
     override fun onCreateView(
@@ -41,10 +41,10 @@ class BookDetailsFragment : BaseFragment() {
             binding.publisherValueTv.text = book.publisher ?: "Unknown"
             binding.availabilityValueTv.let {
                 if (book.isBorrowed == true) {
-                    it.text = "Unavailable"
+                    it.text = getString(R.string.unavailable)
                     it.setTextColor(ActivityCompat.getColor(requireContext(), R.color.pink_700))
                 } else {
-                    it.text = "Available"
+                    it.text = getString(R.string.available)
                     it.setTextColor(ActivityCompat.getColor(requireContext(), R.color.teal_700))
                 }
             }
@@ -59,8 +59,8 @@ class BookDetailsFragment : BaseFragment() {
                 println("rating: ${it.value.precisionTo(1)}")
             }
         } else {
-            viewModel.rating.observe(viewLifecycleOwner, {
-                binding.rating = it.value.precisionTo(1)
+            viewModel.rating.observe(viewLifecycleOwner, { rating ->
+                binding.bookDetailsRating.rating = rating.value.precisionTo(1)
             })
         }
 
