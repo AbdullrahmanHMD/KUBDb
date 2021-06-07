@@ -1,7 +1,6 @@
 package com.comp306.kubdb
 
 import android.app.Application
-import androidx.lifecycle.MutableLiveData
 import com.comp306.kubdb.data.LibraryDatabase
 import com.comp306.kubdb.repositories.AuthorRepository
 import com.comp306.kubdb.repositories.BookRepository
@@ -11,12 +10,16 @@ import kotlinx.coroutines.SupervisorJob
 
 class LibraryApplication : Application() {
 
-    val loaded = MutableLiveData(false)
     val applicationScope = CoroutineScope(SupervisorJob())
 
-    val database by lazy { LibraryDatabase.getDatabase(this, applicationScope, loaded) }
+    lateinit var database: LibraryDatabase
     val userRepository by lazy { UserRepository(database.userDao()) }
     val bookRepository by lazy { BookRepository(database.bookDao()) }
     val authorRepository by lazy { AuthorRepository(database.AuthorDao()) }
+
+    fun initDatabaseWithCallback(callback: () -> Unit) {
+        println("CALLING FROM APPLICATION")
+        database = LibraryDatabase.getDatabase(this, callback)
+    }
 
 }

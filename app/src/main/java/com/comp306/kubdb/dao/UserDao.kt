@@ -20,13 +20,4 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE user_id = :userID AND password = :password")
     fun getUserByCredentials(userID: Int, password: String): Flow<User>
 
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE) //todo: change to query
-    suspend fun addUser(user: User)
-
-    @Query("DELETE FROM users WHERE password LIKE '%TRIAL%' OR first_name LIKE '%TRIAL%' OR last_name LIKE '%TRIAL%' OR city LIKE '%TRIAL%' OR state LIKE '%TRIAL%' OR country LIKE '%TRIAL%'")
-    suspend fun filterCorrupted()
-
-    @Query("SELECT * FROM users limit 1")
-    fun dummy(): Flow<User>
 }

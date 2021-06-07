@@ -15,20 +15,20 @@ class SplashActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        (application as LibraryApplication).userRepository.initTable()
 
-        (application as LibraryApplication).loaded.observe(this, {
-            if (it) {
-                val toLoginActivity = Intent(this, LoginActivity::class.java)
-                startActivity(toLoginActivity)
-                finish()
-            }
-        })
+        println("CALLING FROM SPLASH")
+        (application as LibraryApplication).initDatabaseWithCallback(::nextActivity)
+
+
 
         Handler(Looper.getMainLooper()).postDelayed({
             val toLoginActivity = Intent(this, LoginActivity::class.java)
             startActivity(toLoginActivity)
             finish()
-        }, 5000)
+        }, 2000)
+    }
+
+    private fun nextActivity() {
+
     }
 }

@@ -1,7 +1,6 @@
 package com.comp306.kubdb.data
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -11,13 +10,11 @@ import com.comp306.kubdb.dao.BookDao
 import com.comp306.kubdb.dao.UserDao
 import com.comp306.kubdb.data.entities.*
 import com.comp306.kubdb.data.views.MostRatingUser
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @Database(
     entities = [User::class, Book::class, Author::class, Rating::class, Writes::class],
     views = [MostRatingUser::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class LibraryDatabase : RoomDatabase() {
@@ -33,65 +30,36 @@ abstract class LibraryDatabase : RoomDatabase() {
 
         fun getDatabase(
             context: Context,
-            scope: CoroutineScope,
-            loaded: MutableLiveData<Boolean>
+            callback: () -> Unit,
         ): LibraryDatabase { // todo: remove scope later if not needed
-
+            println("BUILDING")
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     LibraryDatabase::class.java,
                     "library_database"
                 ).createFromAsset("library_db4.db").fallbackToDestructiveMigration()
-                    .addCallback(LibraryDatabaseCallback(scope, loaded))
+                    .addCallback(LibraryDatabaseCallback(callback))
                     .build()
                 INSTANCE = instance
                 instance
             }
         }
+
+
     }
 
-    private class LibraryDatabaseCallback(private val scope: CoroutineScope, val loaded: MutableLiveData<Boolean>) : //TODO: remove later
+    private class LibraryDatabaseCallback(
+        private val callback: () -> Unit
+    ) : //TODO: remove later
         RoomDatabase.Callback() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             println("CREATED")
-
-            loaded.postValue(true)
-
-            INSTANCE?.let { database ->
-                scope.launch {
-//                    database.userDao().filterCorrupted()
-                }
-            }
+            callback()
         }
 
-        suspend fun populateTable(userDao: UserDao) {
-            val user1 = User(
-                123,
-                "xyz",
-                "wali",
-                "3bi",
-                22,
-                "Esenyurt",
-                "Istanbul",
-                "Turkey"
-            )
-            val user2 = User(
-                4324,
-                "awsd",
-                "saria",
-                "al-said hasan",
-                22,
-                "Esenyurt",
-                "Istanbul",
-                "Turkey"
-            )
-
-            userDao.addUser(user1)
-            userDao.addUser(user2)
-        }
     }
 }
 

@@ -27,14 +27,7 @@ class UserRepository(private val userDao: UserDao) {
 
     @Suppress("RedundantSuspendModifier") //TODO: REMOVE?
     @WorkerThread
-    suspend fun addUser(user: User) {
-        userDao.addUser(user)
-    }
-
-    @Suppress("RedundantSuspendModifier") //TODO: REMOVE?
-    @WorkerThread
     fun initTable() {
-        userDao.dummy()
         println("Populating Table")
     }
 

@@ -43,7 +43,6 @@ class BookDetailsFragment : BaseFragment() {
             println("ISBN OF CURRENT BOOK: ${book.isbn}")
             println("BORROWER ID: ${book.borrower}")
             binding.bookDetailsTitleTv.text = book.title
-            binding.bookDetailsImg.setImageResource(R.drawable.book_cover)
             binding.publicationValueTv.text = book.publicationYear?.toString() ?: "Unknown"
             binding.publisherValueTv.text = book.publisher ?: "Unknown"
             binding.availabilityValueTv.let {
