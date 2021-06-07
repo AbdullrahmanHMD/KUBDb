@@ -113,12 +113,13 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="6dp"
                 android:padding="2dp"
+                android:src="@{book.isBorrowed() ? @drawable/false_icon_twinner : @drawable/true_icon_twinner}"
                 app:layout_constraintBottom_toBottomOf="@id/availability_tv"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintRight_toRightOf="@id/availability_tv"
                 app:layout_constraintStart_toEndOf="@id/availability_tv"
                 app:layout_constraintTop_toTopOf="@id/availability_tv"
-                tools:src="@drawable/false_icon_twinner" />
+                tools:src="@drawable/true_icon_twinner" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
