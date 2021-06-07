@@ -56,7 +56,7 @@ abstract class LibraryDatabase : RoomDatabase() {
             super.onCreate(db)
             println("CREATED")
 
-            loaded.value = true
+            loaded.postValue(true)
 
             INSTANCE?.let { database ->
                 scope.launch {
