@@ -2,11 +2,16 @@ package com.comp306.kubdb.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.comp306.kubdb.LibraryApplication
 import com.comp306.kubdb.activities.MainActivity
+import com.comp306.kubdb.adapters.HomeBookAdapter
 
 abstract class BaseFragment : Fragment() {
 
@@ -40,6 +45,27 @@ abstract class BaseFragment : Fragment() {
         super.onAttach(context)
         if (context is MainActivity) {
             app = context.application as LibraryApplication
+        }
+    }
+
+    protected fun loader(url: String, imageView: ImageView) {
+        Glide.with(this).load(url).into(imageView)
+    }
+
+    protected fun setAdapter(
+        recyclerView: RecyclerView,
+        adapter: HomeBookAdapter
+    ) {
+        recyclerView.adapter.let {
+            if (it == null) {
+                recyclerView.adapter = adapter
+                recyclerView.layoutManager =
+                    LinearLayoutManager(
+                        context,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+            }
         }
     }
 

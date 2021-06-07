@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.comp306.kubdb.R
+import com.comp306.kubdb.adapters.HomeBookAdapter
 import com.comp306.kubdb.asCommaSeparatedString
+import com.comp306.kubdb.data.custom.RealNumber
 import com.comp306.kubdb.databinding.FragmentBookDetailsBinding
 import com.comp306.kubdb.precisionTo
 import com.comp306.kubdb.viewmodels.BookDetailViewModel
@@ -65,6 +67,8 @@ class BookDetailsFragment : BaseFragment() {
             })
         }
 
+        showSimilarBooks()
+
         return binding.root
     }
 
@@ -75,6 +79,26 @@ class BookDetailsFragment : BaseFragment() {
         Glide.with(this).load(url).into(binding.bookDetailsImg)
     }
 
+    private fun showSimilarBooks() {
+        binding.similarBooksTitle.animate().alpha(1f).duration = 650
+        viewModel.similarBooks.observe(viewLifecycleOwner, { books ->
+            viewModel.getAverageRatingSimilarBooks(books.map { it.isbn })
+            viewModel.ratingsOfSimilarBooks.observe(viewLifecycleOwner, { bookRatings ->
+                val ratingsMap = bookRatings.map { it.getAsMapEntry() }.toMap()
+                val adapter = HomeBookAdapter(books, ratingsMap, ::loader) { book ->
+                    navigate(
+                        BookDetailsFragmentDirections.bookDetailsFragmentToAnotherBook(
+                            book,
+                            RealNumber(ratingsMap[book.isbn]!!)
+                        )
+                    )
+                }
+                setAdapter(binding.similarBooksRecycler, adapter)
+
+                binding.similarBooksRecycler.animate().alpha(1f).duration = 650
+            })
+        })
+    }
 
     fun onBackClicked(@Suppress("UNUSED_PARAMETER") view: View) {
         getMainActivity()?.onBackPressed()

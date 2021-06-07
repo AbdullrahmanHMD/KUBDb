@@ -119,23 +119,6 @@ class HomeFragment : BaseFragment() {
 
     private fun setAdapter(
         recyclerView: RecyclerView,
-        adapter: HomeBookAdapter
-    ) {
-        recyclerView.adapter.let {
-            if (it == null) {
-                recyclerView.adapter = adapter
-                recyclerView.layoutManager =
-                    LinearLayoutManager(
-                        context,
-                        LinearLayoutManager.HORIZONTAL,
-                        false
-                    )
-            }
-        }
-    }
-
-    private fun setAdapter(
-        recyclerView: RecyclerView,
         adapter: HomeLargeBookAdapter
     ) {
         recyclerView.adapter.let {
@@ -150,11 +133,6 @@ class HomeFragment : BaseFragment() {
             }
         }
     }
-
-    private fun loader(url: String, imageview: ImageView) {
-        Glide.with(this).load(url).into(imageview)
-    }
-
 
     fun onBackClicked(@Suppress("UNUSED_PARAMETER") view: View) {
         navigateBack()

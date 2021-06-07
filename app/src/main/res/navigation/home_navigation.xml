@@ -36,6 +36,9 @@
             android:defaultValue="@null"
             app:argType="com.comp306.kubdb.data.custom.RealNumber"
             app:nullable="true"  />
+        <action
+            android:id="@+id/bookDetailsFragmentToAnotherBook"
+            app:destination="@id/bookDetailsFragment" />
     </fragment>
 
     <fragment

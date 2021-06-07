@@ -2,8 +2,8 @@ package com.comp306.kubdb.viewmodels
 
 import androidx.lifecycle.*
 import com.comp306.kubdb.data.custom.AuthorName
+import com.comp306.kubdb.data.custom.BookAverageRating
 import com.comp306.kubdb.data.custom.RealNumber
-import com.comp306.kubdb.data.entities.Author
 import com.comp306.kubdb.data.entities.Book
 import com.comp306.kubdb.repositories.AuthorRepository
 import com.comp306.kubdb.repositories.BookRepository
@@ -19,10 +19,15 @@ class BookDetailViewModel :
     private val mutableRating = MutableLiveData<RealNumber>()
     var rating: LiveData<RealNumber> = mutableRating
 
-    private val mutableAuthors = MutableLiveData<List<AuthorName>>()
     val authorNames: LiveData<List<AuthorName>> by lazy {
         authorRepository.getBookAuthorsNames(currentBook.value!!.isbn).asLiveData()
     }
+
+    val similarBooks: LiveData<List<Book>> by lazy {
+        bookRepository.getSimilarBooks(currentBook.value!!.isbn).asLiveData()
+    }
+
+    lateinit var ratingsOfSimilarBooks: LiveData<List<BookAverageRating>>
 
     private lateinit var bookRepository: BookRepository
     private lateinit var authorRepository: AuthorRepository
@@ -42,6 +47,13 @@ class BookDetailViewModel :
             }
 
     }
+
+    fun getAverageRatingSimilarBooks(isbns: List<Int>) {
+        viewModelScope.launch {
+            ratingsOfSimilarBooks = bookRepository.getAverageRatings(isbns).asLiveData()
+        }
+    }
+
 }
 
 

@@ -55,4 +55,10 @@ class BookRepository(private val bookDao: BookDao) {
         return bookDao.getMoreBooks(lastTotalItemCount)
     }
 
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    fun getSimilarBooks(isbn: Int): Flow<List<Book>> {
+        return bookDao.getSimilarBooks(isbn)
+    }
+
 }
