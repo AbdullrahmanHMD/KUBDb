@@ -19,6 +19,7 @@ class HomeViewModel :
 
     lateinit var bookRatingsOfBestAuthor: LiveData<List<BookAverageRating>>
     lateinit var bookRatingsOfRecommendation: LiveData<List<BookAverageRating>>
+    lateinit var bookRatingsOfFavAuthor: LiveData<List<BookAverageRating>>
 
     val booksOfTopAuthor: LiveData<List<Book>> by lazy {
         bookRepository.getBooksOFTopAuthor().asLiveData()
@@ -26,6 +27,10 @@ class HomeViewModel :
 
     val recommendedBooks: LiveData<List<Book>>? by lazy {
         bookRepository.getRecommendedBooks(currentUser.age, currentUser.state)?.asLiveData()
+    }
+
+    val booksOfFavAuthor: LiveData<List<Book>>? by lazy {
+        bookRepository.getBooksOfFavouriteAuthor(currentUser.userID).asLiveData()
     }
 
     fun getAverageRatingOfBestAuthor(isbns: List<Int>) {
@@ -37,6 +42,12 @@ class HomeViewModel :
     fun getAverageRatingOfRecommendations(isbns: List<Int>) {
         viewModelScope.launch {
             bookRatingsOfRecommendation = bookRepository.getAverageRatings(isbns).asLiveData()
+        }
+    }
+
+    fun getAverageRatingOfFavAuthor(isbns: List<Int>) {
+        viewModelScope.launch {
+            bookRatingsOfFavAuthor = bookRepository.getAverageRatings(isbns).asLiveData()
         }
     }
 

@@ -1,7 +1,6 @@
 package com.comp306.kubdb.repositories
 
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.MutableLiveData
 import com.comp306.kubdb.dao.BookDao
 import com.comp306.kubdb.data.custom.BookAverageRating
 import com.comp306.kubdb.data.custom.RealNumber
@@ -36,6 +35,12 @@ class BookRepository(private val bookDao: BookDao) {
             return bookDao.getRecommendedBooks(age, state)
         }
         return null
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    fun getBooksOfFavouriteAuthor(user_id: Int): Flow<List<Book>> {
+        return bookDao.getBooksOfFavouriteAuthor(user_id)
     }
 
     @Suppress("RedundantSuspendModifier")

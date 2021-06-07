@@ -27,7 +27,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel?.setRepositories(app.userRepository, app.bookRepository)
+        viewModel.setRepositories(app.userRepository, app.bookRepository)
         getMainActivity()?.currentUser?.let {
             viewModel.currentUser = it
         }
@@ -42,6 +42,7 @@ class HomeFragment : BaseFragment() {
         showHeaders()
         showBooksOfBestAuthor()
         showRecommendedBooks()
+        showBooksOfFavAuthor()
         return binding.root
     }
 
@@ -86,10 +87,32 @@ class HomeFragment : BaseFragment() {
         })
     }
 
+    private fun showBooksOfFavAuthor() {
+        viewModel.booksOfFavAuthor?.observe(viewLifecycleOwner, { books ->
+            binding.pb3.visibility = View.GONE
+            viewModel.getAverageRatingOfFavAuthor(books.map { it.isbn }) // TODO: CHANGE THIS
+            viewModel.bookRatingsOfFavAuthor.observe(viewLifecycleOwner, { bookRatings ->
+                val ratingsMap = bookRatings.map { it.getAsMapEntry() }.toMap()
+                val adapter = HomeBookAdapter(books, ratingsMap, ::loader) { book ->
+                    navigate(
+                        HomeFragmentDirections.homeToBookDetails(
+                            book,
+                            RealNumber(ratingsMap[book.isbn]!!)
+                        )
+                    )
+                }
+                setAdapter(binding.category3Recycler, adapter)
+            })
+            binding.category3Recycler.animate().alpha(1f).duration = 650
+        })
+    }
+
     private fun showHeaders() {
         binding.category1Title.animate().alpha(1f).setDuration(650).withEndAction {
             binding.category2Title.animate().alpha(1f).setDuration(650).withEndAction {
-                // animate the next here
+                binding.category3Title.animate().alpha(1f).setDuration(650).withEndAction {
+                    // animate the next here
+                }
             }
         }
     }
@@ -128,7 +151,7 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun loader(url: String, imageview: ImageView){
+    private fun loader(url: String, imageview: ImageView) {
         Glide.with(this).load(url).into(imageview)
     }
 
