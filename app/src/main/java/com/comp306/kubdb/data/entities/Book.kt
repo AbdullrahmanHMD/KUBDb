@@ -45,9 +45,10 @@ data class Book(
     }
 
     @Ignore
-    fun getImage(loader: (String) -> Unit, imageview: ImageView) {
-        loader(mediumImageUrl!!)
-        imageview.drawable?.let {
+    fun getImage(loader: (String) -> Unit, imageView: ImageView) {
+        if (mediumImageUrl != null)
+            loader(mediumImageUrl)
+        imageView.drawable?.let {
             image = it
         }
     }

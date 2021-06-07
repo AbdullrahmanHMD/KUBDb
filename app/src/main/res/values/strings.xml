@@ -22,4 +22,8 @@
     <string name="show">show:</string>
     <string name="all">All</string>
     <string name="similar_books">Similar Books</string>
+    <string name="borrow_book">Borrow This Book</string>
+    <string name="unavailable_book">Currently Unavailable</string>
+    <string name="return_book">Return This Book</string>
+    <string name="books_from_experts">Books From Experts</string>
 </resources>

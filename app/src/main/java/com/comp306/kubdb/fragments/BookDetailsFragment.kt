@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -12,6 +13,7 @@ import com.comp306.kubdb.R
 import com.comp306.kubdb.adapters.HomeBookAdapter
 import com.comp306.kubdb.asCommaSeparatedString
 import com.comp306.kubdb.data.custom.RealNumber
+import com.comp306.kubdb.data.entities.Book
 import com.comp306.kubdb.databinding.FragmentBookDetailsBinding
 import com.comp306.kubdb.precisionTo
 import com.comp306.kubdb.viewmodels.BookDetailViewModel
@@ -36,7 +38,10 @@ class BookDetailsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentBookDetailsBinding.inflate(layoutInflater, container, false)
+        println("ON CREATE VIEW OF BOOKDETAILS")
         viewModel.currentBook.value?.let { book ->
+            println("ISBN OF CURRENT BOOK: ${book.isbn}")
+            println("BORROWER ID: ${book.borrower}")
             binding.bookDetailsTitleTv.text = book.title
             binding.bookDetailsImg.setImageResource(R.drawable.book_cover)
             binding.publicationValueTv.text = book.publicationYear?.toString() ?: "Unknown"
@@ -49,6 +54,7 @@ class BookDetailsFragment : BaseFragment() {
                     it.text = getString(R.string.available)
                     it.setTextColor(ActivityCompat.getColor(requireContext(), R.color.teal_700))
                 }
+                setupBorrowButton(book)
             }
             loadImage(book.largeImageUrl)
             viewModel.authorNames.observe(viewLifecycleOwner, { authors ->
@@ -70,6 +76,31 @@ class BookDetailsFragment : BaseFragment() {
         showSimilarBooks()
 
         return binding.root
+    }
+
+    private fun setupBorrowButton(book: Book) {
+        val btn = binding.borrowBtn
+        btn.isEnabled = true
+        val currentUserID = getMainActivity()?.currentUser?.userID
+        if (book.isBorrowed == true) {
+            if (book.borrower!! == currentUserID) {
+                btn.text = resources.getString(R.string.return_book)
+            } else {
+                btn.text = resources.getString(R.string.unavailable_book)
+                btn.setOnClickListener(null)
+            }
+        } else {
+            btn.text = resources.getString(R.string.borrow_book)
+            btn.setOnClickListener {
+                if (currentUserID == null) {
+                    Toast.makeText(context, "Could not borrow this book", Toast.LENGTH_SHORT).show()
+                } else {
+                    btn.isEnabled = false
+                    viewModel.borrowBook(currentUserID)
+                    Toast.makeText(context, "Borrowed!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun loadImage(url: String?) {

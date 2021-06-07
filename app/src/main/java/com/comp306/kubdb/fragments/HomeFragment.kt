@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.comp306.kubdb.adapters.HomeBookAdapter
 import com.comp306.kubdb.adapters.HomeLargeBookAdapter
 import com.comp306.kubdb.data.custom.RealNumber
@@ -43,6 +41,7 @@ class HomeFragment : BaseFragment() {
         showBooksOfBestAuthor()
         showRecommendedBooks()
         showBooksOfFavAuthor()
+        showBooksOfExperts()
         return binding.root
     }
 
@@ -107,11 +106,31 @@ class HomeFragment : BaseFragment() {
         })
     }
 
+    private fun showBooksOfExperts() {
+        viewModel.expertBooks.observe(viewLifecycleOwner, { books ->
+            binding.pb4.visibility = View.GONE
+            viewModel.getAverageRatingOfExpert(books.map { it.isbn })
+            viewModel.bookRatingsOfExpert.observe(viewLifecycleOwner, { bookRatings ->
+                val ratingsMap = bookRatings.map { it.getAsMapEntry() }.toMap()
+                val adapter = HomeBookAdapter(books, ratingsMap, ::loader) { book ->
+                    navigate(
+                        HomeFragmentDirections.homeToBookDetails(
+                            book,
+                            RealNumber(ratingsMap[book.isbn]!!)
+                        )
+                    )
+                }
+                setAdapter(binding.category4Recycler, adapter)
+            })
+            binding.category4Recycler.animate().alpha(1f).duration = 650
+        })
+    }
+
     private fun showHeaders() {
         binding.category1Title.animate().alpha(1f).setDuration(650).withEndAction {
             binding.category2Title.animate().alpha(1f).setDuration(650).withEndAction {
                 binding.category3Title.animate().alpha(1f).setDuration(650).withEndAction {
-                    // animate the next here
+                    binding.category4Title.animate().alpha(1f).duration = 650
                 }
             }
         }

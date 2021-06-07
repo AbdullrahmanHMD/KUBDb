@@ -9,11 +9,13 @@ import com.comp306.kubdb.dao.AuthorDao
 import com.comp306.kubdb.dao.BookDao
 import com.comp306.kubdb.dao.UserDao
 import com.comp306.kubdb.data.entities.*
+import com.comp306.kubdb.data.views.MostRatingUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Database(
     entities = [User::class, Book::class, Author::class, Rating::class, Writes::class],
+    views = [MostRatingUser::class],
     version = 3,
     exportSchema = false
 )

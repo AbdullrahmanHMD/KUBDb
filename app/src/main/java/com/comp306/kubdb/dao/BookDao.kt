@@ -17,7 +17,7 @@ interface BookDao {
     @Query("SELECT rating AS real FROM rating WHERE isbn = :isbn")
     fun getAverageRating(isbn: Int): Flow<RealNumber>
 
-    //// COMPLEX ////////////
+    //// COMPLEX QUERIES ////////////
     @Query("SELECT b.* FROM (SELECT MAX(avg_ratings.rating) as max, avg_ratings.author_id as id FROM (SELECT AVG(r.rating) as rating, w.author_id as author_id FROM writes w, rating r WHERE w.isbn = r.isbn GROUP BY w.author_id HAVING COUNT(*) > 5 ORDER BY rating DESC  ) avg_ratings) avg_rating INNER JOIN books b INNER JOIN writes w ON b.isbn = w.isbn AND w.author_id = avg_rating.id")
     fun getBooksOFTopAuthor(): Flow<List<Book>>
 
@@ -27,9 +27,17 @@ interface BookDao {
     @Query("SELECT B.* FROM Books AS B, Writes as W, Authors AS A WHERE A.author_id = W.author_id AND B.isbn = W.isbn AND W.author_id IN (SELECT Favourite_Author.author_id FROM  (SELECT Avg_Ratings.author_id, MAX(Avg_Ratings.Rating)  FROM (SELECT W.author_id, AVG(R.rating) AS Rating FROM Rating as R, Writes as W, users U WHERE W.isbn = R.isbn AND R.user_id = U.user_id AND U.user_id = :user_id  GROUP BY W.author_id ORDER BY Rating DESC) AS Avg_Ratings) AS Favourite_Author)")
     fun getBooksOfFavouriteAuthor(user_id: Int): Flow<List<Book>>
 
-    @Query("SELECT B.* FROM Books AS B WHERE B.isbn != :isbn AND  B.isbn IN (SELECT isbn FROM Rating WHERE user_id IN (SELECT user_id FROM rating WHERE isbn = :isbn))") // ADD QUERY
+    @Query("SELECT B.* FROM Books AS B WHERE B.isbn != :isbn AND  B.isbn IN (SELECT isbn FROM Rating WHERE user_id IN (SELECT user_id FROM rating WHERE isbn = :isbn))")
     fun getSimilarBooks(isbn: Int): Flow<List<Book>>
-    //////////////
+
+    @Query("SELECT B.* FROM Books AS B, Writes as W, Authors AS A WHERE A.author_id = W.author_id AND B.isbn = W.isbn AND W.author_id IN  (SELECT Favourite_author.author_id FROM  (SELECT Avg_Ratings.author_id, MAX(Avg_Ratings.Rating) FROM (SELECT W.author_id, AVG(R.rating) AS Rating FROM Rating as R, Writes as W, users U WHERE W.isbn = R.isbn AND R.user_id = U.user_id AND U.user_id IN  (SELECT I.user_id  FROM (SELECT * FROM most_ratings_user) I) GROUP BY W.author_id ORDER BY Rating DESC) AS Avg_Ratings) AS Favourite_author)") // ADD QUERY
+    fun getExpertsBooks(): Flow<List<Book>>
+    ////////////
+
+    // UPDATE QUERIES ///////
+    @Query("UPDATE books SET borrower_id = :userID WHERE isbn = :isbn")
+    suspend fun borrowBook(userID: Int, isbn: Int)
+    ////////////////
 
     @Query("SELECT * FROM books limit 100")
     fun getAllBooks(): Flow<List<Book>>

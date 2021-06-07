@@ -101,11 +101,11 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="100dp"
                     android:layout_marginBottom="10dp"
+                    android:alpha="0"
                     android:fontFamily="sans-serif-medium"
                     android:text="@string/books_for_you"
                     android:textColor="@color/white"
                     android:textSize="35sp"
-                    android:alpha="0"
                     app:layout_constraintBottom_toTopOf="@+id/category1_recycler"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/home_bg" />
@@ -140,11 +140,11 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
+                    android:alpha="0"
                     android:fontFamily="sans-serif-medium"
                     android:text="@string/books_of_best_author"
                     android:textColor="@color/primary_dark"
                     android:textSize="28sp"
-                    android:alpha="0"
                     app:layout_constraintBottom_toTopOf="@+id/category1_recycler"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/home_bg" />
@@ -168,7 +168,7 @@
                 android:elevation="2dp"
                 android:orientation="vertical"
                 android:paddingBottom="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/category4_layout"
                 app:layout_constraintTop_toBottomOf="@+id/category2_layout"
                 app:layout_constraintVertical_bias="0.0">
 
@@ -179,11 +179,11 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
+                    android:alpha="0"
                     android:fontFamily="sans-serif-medium"
                     android:text="From Your Favorite Author"
                     android:textColor="@color/primary_dark"
                     android:textSize="28sp"
-                    android:alpha="0"
                     app:layout_constraintBottom_toTopOf="@+id/category1_recycler"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/home_bg"
@@ -191,6 +191,46 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/category3_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:layout_marginTop="0dp"
+                    android:alpha="0"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    tools:listitem="@layout/square_list_item" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/category4_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@color/white"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/category3_layout"
+                app:layout_constraintVertical_bias="0.0">
+
+                <TextView
+                    android:id="@+id/category4_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:alpha="0"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/books_from_experts"
+                    android:textColor="@color/primary_dark"
+                    android:textSize="28sp"
+                    app:layout_constraintBottom_toTopOf="@+id/category1_recycler"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/home_bg"
+                    tools:visibility="visible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/category4_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
                     android:layout_marginTop="0dp"
@@ -245,6 +285,17 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/category3_layout" />
+
+            <ProgressBar
+                android:id="@+id/pb4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:indeterminateTint="@color/accent"
+                app:layout_constraintBottom_toBottomOf="@id/category4_layout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/category4_layout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
