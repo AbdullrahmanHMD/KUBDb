@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.comp306.kubdb.data.custom.RealNumber
 import com.comp306.kubdb.data.entities.User
 import kotlinx.coroutines.flow.Flow
 
@@ -25,4 +26,7 @@ interface UserDao {
 
     @Query("DELETE FROM users WHERE password LIKE '%TRIAL%' OR first_name LIKE '%TRIAL%' OR last_name LIKE '%TRIAL%' OR city LIKE '%TRIAL%' OR state LIKE '%TRIAL%' OR country LIKE '%TRIAL%'")
     suspend fun filterCorrupted()
+
+    @Query("SELECT * FROM users limit 1")
+    fun dummy(): Flow<User>
 }

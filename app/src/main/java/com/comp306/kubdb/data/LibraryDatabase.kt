@@ -1,6 +1,7 @@
 package com.comp306.kubdb.data
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -30,7 +31,8 @@ abstract class LibraryDatabase : RoomDatabase() {
 
         fun getDatabase(
             context: Context,
-            scope: CoroutineScope
+            scope: CoroutineScope,
+            loaded: MutableLiveData<Boolean>
         ): LibraryDatabase { // todo: remove scope later if not needed
 
             return INSTANCE ?: synchronized(this) {
@@ -39,7 +41,7 @@ abstract class LibraryDatabase : RoomDatabase() {
                     LibraryDatabase::class.java,
                     "library_database"
                 ).createFromAsset("library_db4.db").fallbackToDestructiveMigration()
-                    .addCallback(LibraryDatabaseCallback(scope))
+                    .addCallback(LibraryDatabaseCallback(scope, loaded))
                     .build()
                 INSTANCE = instance
                 instance
@@ -47,12 +49,14 @@ abstract class LibraryDatabase : RoomDatabase() {
         }
     }
 
-    private class LibraryDatabaseCallback(private val scope: CoroutineScope) : //TODO: remove later
+    private class LibraryDatabaseCallback(private val scope: CoroutineScope, val loaded: MutableLiveData<Boolean>) : //TODO: remove later
         RoomDatabase.Callback() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             println("CREATED")
+
+            loaded.value = true
 
             INSTANCE?.let { database ->
                 scope.launch {
