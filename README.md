@@ -1,2 +1,2 @@
 # KUBDb
-An e-library database management system web application.
+An e-library database Android application using SQL with SQLite.
